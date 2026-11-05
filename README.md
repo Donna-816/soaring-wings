@@ -1,1 +1,5 @@
-# soaring-wings
+# 立羽，飛翔 — soaring wings
+
+個人隨筆誌（GitHub Pages）。
+
+圖片請直接上傳到專案根目錄，檔名為 `圖1.jpg` ～ `圖12.jpg`，網頁會自動顯示；尚未上傳的圖片會顯示帶檔名的佔位框。
