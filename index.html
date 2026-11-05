@@ -73,50 +73,59 @@
   .nav-links a:hover::after { right: 0; }
 
   /* ---------- Hero ---------- */
+  /* Desktop: text left on warm paper, portrait photo right */
   .hero {
     position: relative; min-height: 100vh; min-height: 100svh;
-    display: grid; place-items: end start;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
     overflow: hidden; isolation: isolate;
+    background:
+      radial-gradient(900px 600px at 0% 100%, rgba(224,123,76,.22), transparent 60%),
+      radial-gradient(700px 500px at 40% 0%, rgba(233,184,114,.28), transparent 60%),
+      var(--paper);
+  }
+  .hero-media {
+    position: relative; height: 100vh; height: 100svh; overflow: hidden;
     background: linear-gradient(160deg, #F6D7B8 0%, #E9A47A 45%, #9C7A62 100%);
   }
   .hero-img {
-    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 40% 60%;
     transform: scale(1.06); animation: heroZoom 14s ease-out forwards;
   }
-  .hero::before {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background:
-      linear-gradient(180deg, rgba(251,249,245,0) 35%, rgba(62,52,43,0.55) 100%),
-      linear-gradient(110deg, rgba(224,123,76,0.28) 0%, rgba(233,184,114,0.08) 55%, rgba(0,0,0,0) 100%);
+  .hero-media::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgba(251,249,245,.35) 0%, rgba(251,249,245,0) 22%),
+                linear-gradient(0deg, rgba(224,123,76,.18), rgba(224,123,76,0) 45%);
   }
   .hero-content {
-    padding: 0 clamp(20px, 7vw, 110px) clamp(56px, 12vh, 120px);
-    color: #FFFDF9;
+    padding: 96px clamp(24px, 6vw, 96px);
+    color: var(--ink);
     animation: fadeUp 1.4s ease .2s both;
   }
   .hero-kicker {
     display: inline-block; font-size: 12px; letter-spacing: 0.45em;
-    padding: 6px 14px; border: 1px solid rgba(255,253,249,0.6); border-radius: 999px;
-    margin-bottom: 22px; backdrop-filter: blur(4px);
+    padding: 6px 14px; border: 1px solid var(--clay); color: var(--earth); border-radius: 999px;
+    margin-bottom: 22px;
   }
   .hero h1 {
-    margin: 0; font-size: clamp(44px, 9vw, 104px); line-height: 1.15; font-weight: 700;
-    letter-spacing: 0.18em; text-shadow: 0 4px 30px rgba(62,52,43,0.35);
+    margin: 0; font-size: clamp(44px, 6.4vw, 96px); line-height: 1.2; font-weight: 700;
+    letter-spacing: 0.16em;
   }
+  .hero h1 em { font-style: normal; color: var(--sunset); }
   .hero .sub {
-    margin: 14px 0 0; font-size: clamp(16px, 2.4vw, 24px); letter-spacing: 0.5em;
-    font-weight: 300; text-transform: lowercase; opacity: .92;
+    margin: 14px 0 0; font-size: clamp(16px, 2vw, 22px); letter-spacing: 0.5em;
+    font-weight: 300; text-transform: lowercase; color: var(--ink-soft);
   }
-  .hero-line { width: 64px; height: 2px; background: var(--amber); margin: 26px 0 0; border-radius: 2px; }
+  .hero-line { width: 64px; height: 2px; background: var(--sunset); margin: 28px 0 0; border-radius: 2px; }
   .scroll-hint {
-    position: absolute; right: clamp(20px, 5vw, 60px); bottom: 36px;
-    writing-mode: vertical-rl; font-size: 11px; letter-spacing: 0.4em; color: rgba(255,253,249,.85);
+    position: absolute; left: clamp(24px, 6vw, 96px); bottom: 36px;
+    font-size: 11px; letter-spacing: 0.4em; color: var(--ink-faint);
     display: flex; align-items: center; gap: 12px; text-decoration: none;
   }
   .scroll-hint::after {
-    content: ""; width: 1px; height: 56px; background: rgba(255,253,249,.7);
+    content: ""; width: 56px; height: 1px; background: var(--clay);
     animation: drip 2.2s ease-in-out infinite;
-    transform-origin: top;
+    transform-origin: left;
   }
 
   /* ---------- Sections ---------- */
@@ -213,7 +222,7 @@
   .ratio-34 { aspect-ratio: 3 / 4; }
   .ratio-43 { aspect-ratio: 4 / 3; }
   .ratio-11 { aspect-ratio: 1 / 1; }
-  .ratio-169 { aspect-ratio: 16 / 10; }
+  .ratio-45 { aspect-ratio: 4 / 5; }
 
   /* Layouts */
   .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.6vw, 28px); }
@@ -247,6 +256,8 @@
     transition: transform .3s ease;
   }
   .sunset-colors i:hover { transform: translateY(-4px) scale(1.15); }
+
+  .sunset-grid { max-width: 880px; margin: 0 auto; }
 
   /* Fragments: tall + small */
   .fragments { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(20px, 3.5vw, 40px); align-items: start; }
@@ -306,11 +317,27 @@
 
   @keyframes heroZoom { to { transform: scale(1); } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-  @keyframes drip { 0% { transform: scaleY(0); opacity: 0; } 40% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+  @keyframes drip { 0% { transform: scaleX(0); opacity: 0; } 40% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
 
   /* ---------- Responsive ---------- */
   @media (max-width: 860px) {
     body { font-size: 16px; line-height: 1.9; }
+    /* Phone/tablet: full-screen photo, title over the sky at the top */
+    .hero { grid-template-columns: 1fr; align-items: start; }
+    .hero-media { position: absolute; inset: 0; z-index: -1; }
+    .hero-media::after {
+      background: linear-gradient(180deg, rgba(62,52,43,.62) 0%, rgba(62,52,43,.32) 40%, rgba(62,52,43,0) 58%),
+                  linear-gradient(0deg, rgba(224,123,76,.22), rgba(224,123,76,0) 35%);
+    }
+    .hero-img { object-position: 40% 70%; }
+    .hero-content { padding: clamp(72px, 12vh, 110px) 22px 0; color: #FFFDF9; }
+    .hero h1 { text-shadow: 0 4px 24px rgba(40,30,20,.35); }
+    .hero h1 em { color: var(--amber); }
+    .hero .sub { color: rgba(255,253,249,.92); }
+    .hero-kicker { border-color: rgba(255,253,249,.6); color: #FFFDF9; }
+    .hero-line { background: var(--amber); }
+    .scroll-hint { left: auto; right: 22px; color: rgba(255,253,249,.9); }
+    .scroll-hint::after { background: rgba(255,253,249,.7); }
     .split, .split.reverse, .fragments, .music-photos { grid-template-columns: 1fr; }
     .split.reverse > :first-child { order: 0; }
     .nav-links { display: none; }
@@ -348,12 +375,14 @@
 
 <!-- 1. Hero -->
 <header class="hero" id="top">
-  <img class="hero-img" src="圖1.jpg" alt="穿著制服在綠意校園中的側影" onerror="this.remove()">
   <div class="hero-content">
     <span class="hero-kicker">PERSONAL ZINE</span>
-    <h1>立羽，飛翔</h1>
+    <h1>立羽<em>，</em><br>飛翔</h1>
     <p class="sub">soaring wings</p>
     <div class="hero-line"></div>
+  </div>
+  <div class="hero-media">
+    <img class="hero-img" src="圖1.jpg" alt="穿著制服在綠意校園中的側影" onerror="this.remove()">
   </div>
   <a class="scroll-hint" href="#student">SCROLL</a>
 </header>
@@ -429,19 +458,19 @@
         </div>
       </div>
       <div class="grid-2 sunset-grid">
-        <figure class="photo ratio-43 reveal" data-file="圖5.jpg">
+        <figure class="photo ratio-34 reveal" data-file="圖5.jpg">
           <img src="圖5.jpg" alt="樹枝與粉藍天空的夕陽" loading="lazy">
           <figcaption>樹枝與粉藍天空</figcaption>
         </figure>
-        <figure class="photo ratio-43 reveal d1" data-file="圖6.jpg">
+        <figure class="photo ratio-34 reveal d1" data-file="圖6.jpg">
           <img src="圖6.jpg" alt="建築玻璃反射的夕陽" loading="lazy">
           <figcaption>建築玻璃上的夕陽</figcaption>
         </figure>
-        <figure class="photo ratio-43 reveal" data-file="圖7.jpg">
+        <figure class="photo ratio-34 reveal" data-file="圖7.jpg">
           <img src="圖7.jpg" alt="城市建築與滿天晚霞" loading="lazy">
           <figcaption>城市與滿天晚霞</figcaption>
         </figure>
-        <figure class="photo ratio-43 reveal d1" data-file="圖8.jpg">
+        <figure class="photo ratio-34 reveal d1" data-file="圖8.jpg">
           <img src="圖8.jpg" alt="圍欄與橙黃色日落" loading="lazy">
           <figcaption>圍欄與橙黃色日落</figcaption>
         </figure>
@@ -464,7 +493,7 @@
         <article class="card prose quote reveal d1">
           <p>樹懂我，他沒有說什麼，頂多隨著秋風的節奏抖動樹葉沙沙作響兩聲，但我可以感到自己的悲傷被一點一滴吸收、我聽得見遠方歸巢的鳥兒在鳴叫。</p>
         </article>
-        <figure class="photo ratio-43 reveal d2" data-file="圖10.jpg">
+        <figure class="photo ratio-45 reveal d2" data-file="圖10.jpg">
           <img src="圖10.jpg" alt="電線桿上的小鳥" loading="lazy">
           <figcaption>電線桿上的小鳥</figcaption>
         </figure>
@@ -484,7 +513,7 @@
     </div>
     <div class="stack">
       <div class="split reverse">
-        <figure class="photo ratio-169 reveal" data-file="圖11.jpg">
+        <figure class="photo ratio-34 reveal" data-file="圖11.jpg">
           <img src="圖11.jpg" alt="優里演唱會現場螢幕" loading="lazy">
           <figcaption>優里演唱會現場</figcaption>
         </figure>
